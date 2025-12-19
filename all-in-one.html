@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>实验中学跳楼事件 记录过程</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --text-color: #333;
+            --light-bg: #f8f9fa;
+            --dark-bg: #2c3e50;
+            --border-color: #dee2e6;
+            --sidebar-width: 280px;
+            --header-height: 60px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text-color);
+            background-color: #f5f5f5;
+            line-height: 1.6;
+        }
+
+        /* Header styles */
+        header {
+            background-color: var(--dark-bg);
+            color: white;
+            height: var(--header-height);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .back-button {
+            background: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .back-button:hover {
+            background: #2980b9;
+        }
+
+        /* Main layout */
+        .container {
+            display: flex;
+            margin-top: var(--header-height);
+            min-height: calc(100vh - var(--header-height));
+        }
+
+        /* Sidebar styles */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: white;
+            border-right: 1px solid var(--border-color);
+            position: fixed;
+            top: var(--header-height);
+            bottom: 0;
+            overflow-y: auto;
+            padding: 20px 0;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar-nav ul {
+            list-style: none;
+        }
+
+        .sidebar-nav li {
+            margin-bottom: 5px;
+        }
+
+        .sidebar-nav a {
+            display: block;
+            padding: 12px 20px;
+            color: var(--text-color);
+            text-decoration: none;
+            transition: all 0.3s;
+            border-left: 3px solid transparent;
+        }
+
+        .sidebar-nav a:hover,
+        .sidebar-nav a.active {
+            background-color: var(--light-bg);
+            border-left-color: var(--secondary-color);
+            color: var(--secondary-color);
+        }
+
+        .sidebar-nav a i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Main content */
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 30px;
+        }
+
+        .content-section {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+        }
+
+        h1,
+        h2,
+        h3 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            text-align: center;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            margin-top: 30px;
+            padding-left: 10px;
+            border-left: 4px solid var(--secondary-color);
+        }
+
+        /* Image gallery */
+        .image-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .image-item {
+            flex: 1;
+            min-width: 300px;
+            max-width: 400px;
+            text-align: center;
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .image-item img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .image-title {
+            margin-top: 15px;
+            font-size: 1.2em;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .image-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .image-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .image-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .image-info {
+            padding: 15px;
+        }
+
+        .image-description {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: var(--dark-bg);
+            color: white;
+            margin-top: 30px;
+            border-radius: 0 0 8px 8px;
+        }
+
+        /* Page title for gallery pages */
+        .page-title {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 30px;
+            font-size: 2rem;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 15px;
+        }
+
+        /* Responsive design */
+        @media (max-width: 992px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .image-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .image-item {
+                width: 100%;
+                max-width: 100%;
+            }
+
+            .image-gallery {
+                grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
+            }
+        }
+
+        /* Hide sections by default */
+        #day1-section,
+        #day2-section {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <button class="menu-toggle" id="menuToggle">
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="logo">
+            <i class="fas fa-book"></i> <span id="page-title-text"></span>
+        </div>
+        <button class="back-button" id="backButton" style="display: none;" onclick="showMainPage()">
+            <i class="fas fa-arrow-left"></i> 返回
+        </button>
+    </header>
+
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="#" class="active" onclick="showMainPage()"><i class="fas fa-home"></i> 首页</a></li>
+                    <li><a href="#" onclick="showDay1()"><i class="fas day1"></i> 12月17日 第1次更新</a></li>
+                    <li><a href="#" onclick="showDay2()"><i class="fas day2"></i> 12月17日 第2次更新</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Main Page Section -->
+            <section class="content-section" id="main-section">
+                <h1>[公安与校方已介入处理/已归档]<br>化州实验中学 2025.12.15 跳楼事件</h1>
+                <h2>最后更新在2025年12月18日 22:00</h2>
+                <h2>手机浏览器打开请点击上方菜单键查看</h2>
+
+                <h2>电脑浏览器点击左侧侧栏查看</h2><br>
+                <h2>⚠️ 校方已出调查结果，死亡学生家长已解散此事讨论群，因此本站所有内容仅作归档处理 ⚠️</h2><br>
+                <h2>事件概括：</h2>
+                <h3>事件发生前两周，晚上自习时间，
+                    因班上部分人吵闹，班主任决定让全班同学留堂，
+                    此时，跳楼事件死亡学生：殷梓辉同学，
+                    他对此不解，向班主任提出了质疑，班主任对此不做回应，
+                    于是殷梓辉同学自己走出了教室，随后班主任声称出学校后就不用来了，
+                    因为殷梓辉同学并非住宿生，
+                    因此后两天都不曾来过，后来他的班主任让他回来，
+                    并喊了四名校领导进批评教育，并一致认为他顶撞老师，
+                    令其家教一周，家教回来后又进行了批评教育。</h3>
+                <h3>
+                    由于殷梓辉同学与班里同学关系较差[⚠️待验证]，加之两周前与回校后与领导发生争吵，
+                    于是事发当天12月15日早上7:00升旗时间，他在七楼撒下了一堆写满涉事老师的字条，
+                    并直接从楼上跳下，事发后，领导层立即响应，所有参与升旗
+                    所有高一高二学生被延迟半小时的时间，
+                    让学校的部分工作人员清理所有血迹后，遂才放学生回教室，
+                    事后领导层人员查看监控，派人员清理了所有的字条，
+                    并此事件封锁消息以阻止舆论扩散。</h3>
+                
+                <h2>此网页由Mishino-sama制作并整理上传</h2>
+                
+                <footer>
+                    <p>更新于2025-12-18 22:00:00</p>
+                </footer>
+            </section>
+
+            <!-- Day 1 Section -->
+            <section class="content-section" id="day1-section">
+                <h1 class="page-title">12月17日 16:30 第一次更新</h1>
+
+                <div class="image-gallery">
+                    <div class="image-card">
+                        <img src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEMxrVpQmGsENutZRvGqEk0yBNdWlCTTAACjSYAAljPEVZfSY2qjGSgYjYE.jpg"
+                            alt="首次发布在公共平台上">
+                        <div class="image-info">
+                            <div class="image-title">首次发布在公共平台上</div>
+                            <div class="image-description">此事件的首次披露，随后不到12小时被删除</div>
+                        </div>
+                    </div>
+
+                    <div class="image-card">
+                        <img src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEM1hRpQpVCrSs6d-gcuD9I0dyW34H8WwACrjYAAljPEVajFS2Z_gH_tzYE.png"
+                            alt="图0">
+                        <div class="image-info">
+                            <div class="image-title">豆包对被删原文章的总结 1</div>
+                            <div class="image-description">对被删原文的总结，非AI生成</div>
+                        </div>
+                    </div>
+
+                    <div class="image-card">
+                        <img src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAENK_9pRAit2Db_qS7Wo36DlsHVS5VXVgACPkEAAjgIIFbLIztwi2ed2zYE.png"
+                            alt="图1">
+                        <div class="image-info">
+                            <div class="image-title">豆包对被删原文章的总结 2</div>
+                            <div class="image-description">疑似披露了殷梓辉同学获得过的成绩，为合唱比赛一等奖</div>
+                        </div>
+                    </div>
+                    <div class="image-card">
+                        <img src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEM2txpQqVGv6QIlD8FLml1nU4Eizvk4gACdTsAAljPEVYYOPbrS6MXPjYE.png"
+                            alt="图1">
+                        <div class="image-info">
+                            <div class="image-title">殷梓辉同学生前获得的荣誉与成绩 1</div>
+                            <div class="image-description">殷梓辉同学生前获得过语文班前三</div>
+                        </div>
+                    </div>
+                    <div class="image-card">
+                        <img src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEM2uRpQqVR_vFlSF40i5ZyqiwPdizeMgACfTsAAljPEVYOhVi4BlwV4TYE.png"
+                            alt="图1">
+                        <div class="image-info">
+                            <div class="image-title">殷梓辉同学生前获得的荣誉与成绩 2</div>
+                            <div class="image-description">殷梓辉同学生前在期中考试中获得了较为优异的成绩</div>
+                        </div>
+                    </div>
+                    <div class="image-card">
+                        <img src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEM2uJpQqVQMyhX73-0MGeL0hQHaP6gBAACezsAAljPEVZ05DAE7Riv0jYE.png"
+                            alt="图1">
+                        <div class="image-info">
+                            <div class="image-title">殷梓辉同学生前获得的荣誉与成绩 3</div>
+                            <div class="image-description">殷梓辉同学生前在月考中也取得了优秀的成绩</div>
+                        </div>
+                    </div>
+
+
+                    <div class="image-card">
+                        <img src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEMxrtpQmGyMMR2mFn6IlOZWk_lvdWt4gACkyYAAljPEVav7PVFbhPrWjYE.jpg"
+                            alt="图片2">
+                        <div class="image-info">
+                            <div class="image-title">网警封锁</div>
+                            <div class="image-description">有部分学生发现此事件的消息被学校联合网警封锁</div>
+                        </div>
+                    </div>
+
+                    <div class="image-card">
+                        <img src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEMxrlpQmGtY9y0bjsAATkGeCQn0QZ7mX4AApEmAAJYzxFWlIr9ElmQQRI2BA.png"
+                            alt="图片3">
+                        <div class="image-info">
+                            <div class="image-title">高一讨论 1</div>
+                            <div class="image-description">高一学生讨论记录 1</div>
+                        </div>
+                    </div>
+
+                    <div class="image-card">
+                        <img src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEMxrhpQmGtLK6te0nrk0LAVR-3RNWSkwACkCYAAljPEVbjmaGTX4-_aDYE.png"
+                            alt="图片4">
+                        <div class="image-info">
+                            <div class="image-title">高一讨论 2</div>
+                            <div class="image-description">讨论升旗时间被延长原因</div>
+                        </div>
+                    </div>
+
+                    <div class="image-card">
+                        <img src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEMxrppQmGx57Fagilp56EAAdgqUkrPbm8AApImAAJYzxFWaM7meflwVzA2BA.jpg"
+                            alt="图片5">
+                        <div class="image-info">
+                            <div class="image-title">疑似和殷梓辉家长的聊天 1</div>
+                            <div class="image-description">此时殷梓辉同学写的纸条已被没收，原事件文章被举报后下架</div>
+                        </div>
+                    </div>
+
+                    <div class="image-card">
+                        <img src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEMxrZpQmGsEY7VEja0hJbBbf8vWzIg4gACjiYAAljPEVbwt3lbzn2XHjYE.jpg"
+                            alt="图片6">
+                        <div class="image-info">
+                            <div class="image-title">疑似和殷梓辉家长的聊天 2</div>
+                            <div class="image-description">解释了一部分殷梓辉同学跳楼的原因</div>
+                        </div>
+                    </div>
+
+                    <div class="image-card">
+                        <img src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEMxrxpQmGyJ2tEsfDlfZIl1Cv25FGk6AAClCYAAljPEVYjlKTWoA5y2zYE.jpg"
+                            alt="图片7">
+                        <div class="image-info">
+                            <div class="image-title">疑似和殷梓辉家长的聊天 3</div>
+                            <div class="image-description">更多事发前细节</div>
+                        </div>
+                    </div>
+
+                    <div class="image-card">
+                        <img src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEMxrdpQmGs78oBDlEWw_oGaQABxfsonLwAAo8mAAJYzxFWaD-uLkLlHw42BA.jpg"
+                            alt="图片8">
+                        <div class="image-info">
+                            <div class="image-title">疑似和殷梓辉家长的聊天 4</div>
+                            <div class="image-description">事发前领导疑似打算记大过处理</div>
+                        </div>
+                    </div>
+                    <div class="image-card">
+                        <img src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEM2tlpQqVF2i3tYAHE60QRs80IiTRtNgACcjsAAljPEVYLbw2BW4JwSzYE.png"
+                            alt="图片9">
+                        <div class="image-info">
+                            <div class="image-title">殷梓辉家长和班主任的聊天 1</div>
+                            <div class="image-description">事发前，殷梓辉同学已写好检讨书并由家长提交到学校</div>
+                        </div>
+                    </div>
+                    <div class="image-card">
+                        <img src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEM2uNpQqVRtUDMyNADCKFVqbGa5NtFuAACfDsAAljPEVZyfgoO2MNNHzYE.png"
+                            alt="图片10">
+                        <div class="image-info">
+                            <div class="image-title">死者家长和班主任的聊天 2</div>
+                            <div class="image-description">事发前，殷梓辉同学回校后与班主任和领导的争吵细节</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Day 2 Section -->
+            <section class="content-section" id="day2-section">
+                <h1 class="page-title">12月17日 19:30 第二次更新</h1>
+
+                <div class="image-gallery">
+                    <div class="image-card">
+                        <img src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEM2tppQqVFqyJ2MmmtWk3l02ZqwrSJUwACczsAAljPEVZqxL447a1Y7DYE.png"
+                            alt="图片1">
+                        <div class="image-info">
+                            <div class="image-title">校方在事发后的表述</div>
+                            <div class="image-description">事件过程与多方目击者描述吻合，但校方积极封锁消息，企图掩盖学校责任，尊重逝者不等于不追责校方</div>
+                        </div>
+                    </div>
+                    <div class="image-card">
+                        <img src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEM1g9pQpU9MJyUKGdAl-jJEprCIBGDRgACqTYAAljPEVb5AeluItiu-DYE.jpg"
+                            alt="图片1">
+                        <div class="image-info">
+                            <div class="image-title">殷梓辉同学留下的遗书纸条</div>
+                            <div class="image-description">一部分同学拾到未被清理的纸条，红圈处地方可隐约见到"梁达权"三个字，是批评殷梓辉同学的领导之一</div>
+                        </div>
+                    </div>
+
+                    <div class="image-card">
+                        <img src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEM1hFpQpU-VSL1P5Xxy8yaa0IAASV2tLAAAqs2AAJYzxFW6srScWFW0vU2BA.jpg"
+                            alt="图片2">
+                        <div class="image-info">
+                            <div class="image-title">涉事老师 庞彩花 语文老师及班主任</div>
+                            <div class="image-description">此为殷梓辉同学的班主任</div>
+                        </div>
+                    </div>
+
+                    <div class="image-card">
+                        <img src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEM11JpQplxbyBKhllYAYcDFE7vdSWsuwAC9zcAAljPEVZMKv6Cag0QUDYE.jpg"
+                            alt="图片6">
+                        <div class="image-info">
+                            <div class="image-title">[⚠️部分内容未验证] 第三方同学的视角</div>
+                            <div class="image-description">证实当时确有领导在场，并且疑似透露出殷梓辉同学与班里同学并不好，受到言语刺激的殷梓辉同学产生了跳楼的想法</div>
+                        </div>
+                    </div>
+
+                    <div class="image-card">
+                        <img src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEM11BpQplxa9JblCEN0luQkuFlVl1LWAAC9TcAAljPEVa0EQadJULjFTYE.jpg"
+                            alt="图片7">
+                        <div class="image-info">
+                            <div class="image-title">[校方表述此为假❌] 事发后的尸体处理过程</div>
+                            <div class="image-description">目击者所透露的事发后尸体处理经过</div>
+                        </div>
+                    </div>
+
+                    <div class="image-card">
+                        <img src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEM101pQplwicIrU1S1HioPZzQDJXGsugAC8jcAAljPEVauXXO9sOe8dTYE.jpg"
+                            alt="图片8">
+                        <div class="image-info">
+                            <div class="image-title">事发后的领导讲话</div>
+                            <div class="image-description">陈伟明主任对此事的公开表述</div>
+                        </div>
+                    </div>
+                    
+                    <div class="image-card">
+                        <img src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEM109pQplxtA32kLNr0I_nsuOzv-fpvQAC9DcAAljPEVasBOmbYNYTzTYE.jpg"
+                            alt="图片5">
+                        <div class="image-info">
+                            <div class="image-title">待验证的调查结果</div>
+                            <div class="image-description">疑似事件结果，但未经各方证实</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Toggle sidebar on mobile
+        document.getElementById('menuToggle').addEventListener('click', function () {
+            document.getElementById('sidebar').classList.toggle('active');
+        });
+
+        // Show main page
+        function showMainPage() {
+            document.getElementById('main-section').style.display = 'block';
+            document.getElementById('day1-section').style.display = 'none';
+            document.getElementById('day2-section').style.display = 'none';
+            document.getElementById('backButton').style.display = 'none';
+            document.getElementById('page-title-text').textContent = '';
+            
+            // Update active class in sidebar
+            document.querySelectorAll('.sidebar-nav a').forEach(a => a.classList.remove('active'));
+            document.querySelector('.sidebar-nav a:first-child').classList.add('active');
+        }
+
+        // Show day 1 content
+        function showDay1() {
+            document.getElementById('main-section').style.display = 'none';
+            document.getElementById('day1-section').style.display = 'block';
+            document.getElementById('day2-section').style.display = 'none';
+            document.getElementById('backButton').style.display = 'flex';
+            document.getElementById('page-title-text').textContent = '第一次更新';
+            
+            // Update active class in sidebar
+            document.querySelectorAll('.sidebar-nav a').forEach(a => a.classList.remove('active'));
+            document.querySelectorAll('.sidebar-nav a')[1].classList.add('active');
+        }
+
+        // Show day 2 content
+        function showDay2() {
+            document.getElementById('main-section').style.display = 'none';
+            document.getElementById('day1-section').style.display = 'none';
+            document.getElementById('day2-section').style.display = 'block';
+            document.getElementById('backButton').style.display = 'flex';
+            document.getElementById('page-title-text').textContent = '第二次更新';
+            
+            // Update active class in sidebar
+            document.querySelectorAll('.sidebar-nav a').forEach(a => a.classList.remove('active'));
+            document.querySelectorAll('.sidebar-nav a')[2].classList.add('active');
+        }
+
+        // Image modal functionality
+        document.querySelectorAll('.image-card').forEach(card => {
+            card.addEventListener('click', function (e) {
+                if (e.target.tagName !== 'IMG') return;
+
+                // Create modal to display large image
+                const modal = document.createElement('div');
+                modal.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0,0,0,0.9);
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    z-index: 2000;
+                    cursor: pointer;
+                `;
+
+                const img = document.createElement('img');
+                img.src = e.target.src;
+                img.style.cssText = `
+                    max-width: 90%;
+                    max-height: 90%;
+                    object-fit: contain;
+                `;
+
+                modal.appendChild(img);
+                document.body.appendChild(modal);
+
+                modal.addEventListener('click', function () {
+                    document.body.removeChild(modal);
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
