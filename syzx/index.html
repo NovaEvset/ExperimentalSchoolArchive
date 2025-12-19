@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SYZX跳楼事件 全过程</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style0.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <i class="fas fa-book"></i>
+        </div>
+        <button class="menu-toggle" id="menuToggle">
+            <i class="fas fa-bars"></i>
+        </button>
+    </header>
+
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="#" class="active"><i class="fas fa-home"></i> 首页</a></li>
+                    <li><a href="day1.html"><i class="fas day1"></i> 12月17日 第1次更新</a></li>
+                    <li><a href="day2.html"><i class="fas day2"></i> 12月17日 第2次更新</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <section class="content-section">
+                <h1>SYZX 12.15 跳楼事件<br>shiyan领导你们的木琴还在吗</h1>
+                <h2>持续更新中，最后更新在12月17日 19:40</h2>
+                <h2>手机浏览器打开请点击上方菜单键查看</h2>
+                <div class="image-item">
+                    <img src="./image/menu.png" alt="menu">
+                    <div class="image-title">手机版浏览器点击此处</div>
+                </div>
+                <h2>电脑浏览器点击左侧侧栏查看</h2>
+                <h2>事件概括：</h2>
+                <h3>事件发生前两周，晚上自习时间，
+                    因班上部分人吵闹，班主任决定让全班同学留堂，
+                    此时，跳楼事件死亡学生：殷梓辉同学，
+                    他对此不解，向班主任提出了质疑，班主任对此不做回应，
+                    于是殷梓辉同学自己走出了教室，随后这位班主任对他进行了言语辱骂，
+                    并声称出学校后就不用来了，因为殷梓辉同学并非住宿生，
+                    因此后两天都不曾来过，后来他的班主任强行让他回来，
+                    并喊了四名校领导进批评教育，并一致认为他顶撞老师，
+                    令其家教一周，家教回来后又进行了批评教育。</h3>
+                <h3>
+                    由于殷梓辉同学与家里人以及班里同学关系较差[待验证]，加之两周前与回校后与领导发生争吵，
+                    于是事发当天12月15日早上7:00升旗时间，心灰意冷的他在七楼撒下了一堆写满涉事老师的字条，
+                    并直接从楼上跳下，事发后，领导层立即响应，所有参与升旗
+                    所有高一高二学生被强行拖了半个小时的时间，
+                    让学校的部分工作人员清理所有血迹后，遂才放学生回教室，
+                    事后领导层人员查看监控，派人员清理了所有的字条，
+                    妄图掩埋真相，并疑似与网警联合封锁消息。</h3>
+                <h3>
+                    本次事件失去了一位本该拥有美好未来的学生，他在最青春光彩的年纪拥有无限的可能，却因为领导层与老师的言语而不堪重负选择了轻生。
+                    其影响之恶劣，对实验中学的师生和谐环境产生了一定程度上的威胁，对领导层产生了严重的失信。
+                </h3>
+    <h2>此网页由Neurax-sama制作并整理上传，持续更新中</h2>
+    </div>
+    </section>
+
+    <footer>
+        <p>更新于2025-12-17 19:00:00</p>
+    </footer>
+    </main>
+    </div>
+
+    <script>
+        // Toggle sidebar on mobile
+        document.getElementById('menuToggle').addEventListener('click', function () {
+            document.getElementById('sidebar').classList.toggle('active');
+        });
+
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('keyup', function (e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const imageItems = document.querySelectorAll('.image-item');
+
+            imageItems.forEach(item => {
+                const title = item.querySelector('.image-title').textContent.toLowerCase();
+                if (title.includes(searchTerm)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
